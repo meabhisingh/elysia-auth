@@ -3,6 +3,7 @@ import nextra from "nextra";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -12,6 +13,7 @@ const nextConfig = {
       },
     ],
   },
+  output: "export",
 };
 
 const withNextra = nextra({
