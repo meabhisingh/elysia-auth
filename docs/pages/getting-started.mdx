@@ -1,11 +1,11 @@
 # Getting Started
 
-This guide will help you set up authentication in your Elysia.js application using @auth/elysia.
+This guide will help you set up authentication in your Elysia.js application using elysia-auth.
 
 ## Installation
 
 ```bash
-bun add @auth/elysia
+bun add elysia-auth
 ```
 
 ## Basic Setup
@@ -23,7 +23,7 @@ AUTH_GOOGLE_SECRET="your-google-client-secret"
 
 ```typescript
 import { Elysia } from 'elysia'
-import { ElysiaAuth } from '@auth/elysia'
+import { ElysiaAuth } from 'elysia-auth'
 import Google from '@auth/core/providers/google'
 
 const app = new Elysia()
@@ -45,7 +45,7 @@ const app = new Elysia()
 ### Method 1: Using authGuard
 
 ```typescript
-import { authGuard } from '@auth/elysia'
+import { authGuard } from 'elysia-auth'
 
 app
   .group('/admin', app => app
@@ -60,7 +60,7 @@ app
 ### Method 2: Using protectPaths
 
 ```typescript
-import { protectPaths } from '@auth/elysia'
+import { protectPaths } from 'elysia-auth'
 
 app.use(protectPaths(
   ['/admin', '/api/private'],

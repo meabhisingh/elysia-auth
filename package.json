@@ -1,5 +1,5 @@
 {
-  "name": "@auth/elysia",
+  "name": "elysia-auth",
   "type": "module",
   "version": "0.0.0",
   "main": "./dist/index.cjs",
@@ -30,12 +30,15 @@
     "bun"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/meabhisingh/@auth/elysia#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/meabhisingh/elysia-auth#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/meabhisingh/@auth/elysia.git"
+    "url": "git+https://github.com/meabhisingh/elysia-auth.git"
   },
-  "bugs": "https://github.com/meabhisingh/@auth/elysia/issues",
+  "bugs": "https://github.com/meabhisingh/elysia-auth/issues",
   "author": "Abhishek Singh <official.6packprogrammer@gmail.com>",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.3",

@@ -1,6 +1,6 @@
 # Authentication Providers
 
-@auth/elysia supports all providers from [@auth/core](https://authjs.dev/getting-started/providers), making it easy to implement various authentication strategies.
+elysia-auth supports all providers from [@auth/core](https://authjs.dev/getting-started/providers), making it easy to implement various authentication strategies.
 
 ## Available Providers
 
@@ -24,7 +24,7 @@
 Use email/password authentication:
 
 ```typescript
-import { ElysiaAuth } from '@auth/elysia'
+import { ElysiaAuth } from 'elysia-auth'
 import Credentials from '@auth/core/providers/credentials'
 
 new Elysia()
@@ -57,7 +57,7 @@ new Elysia()
 ### Google Example
 
 ```typescript
-import { ElysiaAuth } from '@auth/elysia'
+import { ElysiaAuth } from 'elysia-auth'
 import Google from '@auth/core/providers/google'
 
 new Elysia()
@@ -81,7 +81,7 @@ new Elysia()
 ### GitHub Example
 
 ```typescript
-import { ElysiaAuth } from '@auth/elysia'
+import { ElysiaAuth } from 'elysia-auth'
 import GitHub from '@auth/core/providers/github'
 
 new Elysia()
@@ -100,7 +100,7 @@ new Elysia()
 You can combine multiple providers:
 
 ```typescript
-import { ElysiaAuth } from '@auth/elysia'
+import { ElysiaAuth } from 'elysia-auth'
 import Google from '@auth/core/providers/google'
 import GitHub from '@auth/core/providers/github'
 import Credentials from '@auth/core/providers/credentials'

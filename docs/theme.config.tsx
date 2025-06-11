@@ -6,25 +6,23 @@ const config: DocsThemeConfig = {
   logo: (
     <div className="flex items-center gap-1">
       <Image
-        src={
-          "https://camo.githubusercontent.com/243909f00e726430f4d7e31c0f5e5c87e3abde526714482c806445852907d319/68747470733a2f2f6e6578742d617574682e6a732e6f72672f696d672f6c6f676f2f6c6f676f2d736d2e706e67"
-        }
+        src={"https://avatars.githubusercontent.com/u/119793569?s=200&v=4"}
         width={50}
         height={50}
         className="w-10 h-10"
-        alt="Auth"
+        alt="Elysia Auth"
       />
-      <span className="text-lg font-bold">Auth.js</span>
+      <span className="text-lg font-bold">Elysia Auth</span>
     </div>
   ),
 
   project: {
-    link: "https://github.com/meabhisingh/@auth/elysia.git",
+    link: "https://github.com/meabhisingh/elysia-auth.git",
   },
   chat: {
     link: "https://discord.com/invite/mhRB3wuS33  ",
   },
-  docsRepositoryBase: "https://github.com/meabhisingh/@auth/elysia#readme",
+  docsRepositoryBase: "https://github.com/meabhisingh/elysia-auth#readme",
   footer: {
     component: null,
   },

@@ -1,6 +1,6 @@
-# @auth/elysia
+# elysia-auth
 
-**@auth/elysia** is a powerful authentication middleware for [Elysia.js](https://elysiajs.com) applications, built on top of [`@auth/core`](https://authjs.dev). It provides seamless integration with various authentication providers and robust middleware solutions for protecting your routes.
+**elysia-auth** is a powerful authentication middleware for [Elysia.js](https://elysiajs.com) applications, built on top of [`@auth/core`](https://authjs.dev). It provides seamless integration with various authentication providers and robust middleware solutions for protecting your routes.
 
 ## Features
 
@@ -23,14 +23,14 @@
 ## Quick Start
 
 ```bash
-bun add @auth/elysia
+bun add elysia-auth
 ```
 
 Basic usage:
 
 ```typescript
 import { Elysia } from 'elysia'
-import { ElysiaAuth, authGuard } from '@auth/elysia'
+import { ElysiaAuth, authGuard } from 'elysia-auth'
 
 const app = new Elysia()
   .use(ElysiaAuth({
@@ -46,7 +46,7 @@ const app = new Elysia()
   .listen(3000)
 ```
 
-## Why @auth/elysia?
+## Why elysia-auth?
 
 1. **Built for Elysia** - Designed specifically for Elysia.js applications
 2. **Type-Safe** - Full TypeScript support

@@ -7,7 +7,7 @@
 Customize JWT settings for your application:
 
 ```typescript
-import { ElysiaAuth } from '@auth/elysia'
+import { ElysiaAuth } from 'elysia-auth'
 
 new Elysia()
   .use(ElysiaAuth({
@@ -54,7 +54,7 @@ new Elysia()
 ### Auth Guard with Custom Failure Handler
 
 ```typescript
-import { authGuard } from '@auth/elysia'
+import { authGuard } from 'elysia-auth'
 
 app.group('/admin', app => app
   .use(authGuard({
@@ -74,7 +74,7 @@ app.group('/admin', app => app
 ### Protected Paths with Custom Authentication
 
 ```typescript
-import { protectPaths } from '@auth/elysia'
+import { protectPaths } from 'elysia-auth'
 
 app.use(protectPaths(
   ['/api/private', '/admin'],

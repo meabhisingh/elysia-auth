@@ -1,12 +1,12 @@
 # Examples
 
-Here are some common usage examples for @auth/elysia.
+Here are some common usage examples for elysia-auth.
 
 ## Basic Authentication
 
 ```typescript
 import { Elysia } from 'elysia'
-import { ElysiaAuth, authGuard } from '@auth/elysia'
+import { ElysiaAuth, authGuard } from 'elysia-auth'
 import Google from '@auth/core/providers/google'
 
 const app = new Elysia()
@@ -31,7 +31,7 @@ const app = new Elysia()
 
 ```typescript
 import { Elysia } from 'elysia'
-import { ElysiaAuth } from '@auth/elysia'
+import { ElysiaAuth } from 'elysia-auth'
 import Google from '@auth/core/providers/google'
 import GitHub from '@auth/core/providers/github'
 import Credentials from '@auth/core/providers/credentials'
@@ -71,7 +71,7 @@ const app = new Elysia()
 
 ```typescript
 import { Elysia } from 'elysia'
-import { authGuard } from '@auth/elysia'
+import { authGuard } from 'elysia-auth'
 
 // Define custom user type with roles
 type User = {
@@ -107,7 +107,7 @@ Either pass paths you want to protect in `protectPaths(["/api","/api2"])` this w
 
 ```typescript copy
 import { Elysia } from 'elysia'
-import { protectPaths } from '@auth/elysia'
+import { protectPaths } from 'elysia-auth'
 
 const app = new Elysia()
   .use(protectPaths(['/api']))
@@ -129,7 +129,7 @@ const app = new Elysia()
 
 ```typescript copy
 import { Elysia } from 'elysia'
-import { authGaurd } from '@auth/elysia'
+import { authGaurd } from 'elysia-auth'
 
 const postsModule = new Elysia()
     .use(authGaurd())
@@ -211,7 +211,7 @@ More details on `@auth/react`  [docs](http://npmjs.com/package/@auth/react)
 
 ```typescript
 import { Elysia } from 'elysia'
-import { authGuard } from '@auth/elysia'
+import { authGuard } from 'elysia-auth'
 
 const app = new Elysia()
   .use(authGuard({
@@ -231,7 +231,7 @@ const app = new Elysia()
 
 ```typescript
 import { Elysia } from 'elysia'
-import { authGuard } from '@auth/elysia'
+import { authGuard } from 'elysia-auth'
 
 const app = new Elysia()
   .ws('/chat', {

@@ -11,7 +11,7 @@ export default {
   output: {
     dir: "dist",
     format: "es",
-    name: "@auth/elysia",
+    name: "elysia-auth",
     preserveModules: true,
     preserveModulesRoot: "src",
     sourcemap: true,
