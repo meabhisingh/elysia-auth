@@ -1,0 +1,145 @@
+# Authentication Providers
+
+@auth/elysia supports all providers from [@auth/core](https://authjs.dev/getting-started/providers), making it easy to implement various authentication strategies.
+
+## Available Providers
+
+### OAuth Providers
+
+- [Google](/providers/oauth#google)
+- [GitHub](/providers/oauth#github)
+- [Discord](/providers/oauth#discord)
+- [Twitter](/providers/oauth#twitter)
+- [Facebook](/providers/oauth#facebook)
+- And many more!
+
+### Email Providers
+
+- [Nodemailer](/providers/email#nodemailer)
+- [Resend](/providers/email#resend)
+- [SendGrid](/providers/email#sendgrid)
+
+### Credentials
+
+Use email/password authentication:
+
+```typescript
+import { ElysiaAuth } from '@auth/elysia'
+import Credentials from '@auth/core/providers/credentials'
+
+new Elysia()
+  .use(ElysiaAuth({
+    providers: [
+      Credentials({
+        credentials: {
+          email: {
+            type: "email",
+            label: "Email",
+            placeholder: "john@example.com"
+          },
+          password: {
+            type: "password",
+            label: "Password"
+          }
+        },
+        async authorize(credentials) {
+          // Add your authentication logic here
+          const user = await validateUser(credentials)
+          return user
+        }
+      })
+    ]
+  }))
+```
+
+## OAuth Configuration
+
+### Google Example
+
+```typescript
+import { ElysiaAuth } from '@auth/elysia'
+import Google from '@auth/core/providers/google'
+
+new Elysia()
+  .use(ElysiaAuth({
+    providers: [
+      Google({
+        clientId: process.env.AUTH_GOOGLE_ID,
+        clientSecret: process.env.AUTH_GOOGLE_SECRET,
+        authorization: {
+          params: {
+            prompt: "consent",
+            access_type: "offline",
+            response_type: "code"
+          }
+        }
+      })
+    ]
+  }))
+```
+
+### GitHub Example
+
+```typescript
+import { ElysiaAuth } from '@auth/elysia'
+import GitHub from '@auth/core/providers/github'
+
+new Elysia()
+  .use(ElysiaAuth({
+    providers: [
+      GitHub({
+        clientId: process.env.AUTH_GITHUB_ID,
+        clientSecret: process.env.AUTH_GITHUB_SECRET
+      })
+    ]
+  }))
+```
+
+## Multiple Providers
+
+You can combine multiple providers:
+
+```typescript
+import { ElysiaAuth } from '@auth/elysia'
+import Google from '@auth/core/providers/google'
+import GitHub from '@auth/core/providers/github'
+import Credentials from '@auth/core/providers/credentials'
+
+new Elysia()
+  .use(ElysiaAuth({
+    providers: [
+      Google({
+        clientId: process.env.AUTH_GOOGLE_ID,
+        clientSecret: process.env.AUTH_GOOGLE_SECRET
+      }),
+      GitHub({
+        clientId: process.env.AUTH_GITHUB_ID,
+        clientSecret: process.env.AUTH_GITHUB_SECRET
+      }),
+      Credentials({
+        // ... credentials config
+      })
+    ]
+  }))
+```
+
+## Custom Providers
+
+You can create custom providers by implementing the provider interface:
+
+```typescript
+import { Provider } from '@auth/core/providers'
+
+const CustomProvider: Provider = {
+  id: "custom",
+  name: "Custom Provider",
+  type: "credentials",
+  // Implement required methods
+}
+```
+
+## Next Steps
+
+- Learn about [Callbacks and Events](/advanced/callbacks)
+- Explore [Session Management](/advanced/sessions)
+- Check [Error Handling](/advanced/errors)

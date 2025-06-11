@@ -1,0 +1,60 @@
+# @auth/elysia
+
+**@auth/elysia** is a powerful authentication middleware for [Elysia.js](https://elysiajs.com) applications, built on top of [`@auth/core`](https://authjs.dev). It provides seamless integration with various authentication providers and robust middleware solutions for protecting your routes.
+
+## Features
+
+- 🔒 **Multiple Auth Providers** - Support for 50+ authentication providers including:
+  - OAuth providers (Google, GitHub, Discord, etc.)
+  - Email/Password authentication
+  - JWT-based authentication
+  - And many more!
+
+- 🛡️ **Flexible Protection** - Two middleware approaches:
+  - `authGuard` for route-specific protection
+  - `protectPaths` for global path-based protection
+
+- 🎯 **Easy Integration** - Simple setup with Elysia.js applications
+
+- 🔑 **Session Management** - Built-in JWT session handling
+
+- ⚡ **Performance** - Optimized for Bun's runtime
+
+## Quick Start
+
+```bash
+bun add @auth/elysia
+```
+
+Basic usage:
+
+```typescript
+import { Elysia } from 'elysia'
+import { ElysiaAuth, authGuard } from '@auth/elysia'
+
+const app = new Elysia()
+  .use(ElysiaAuth({
+    secret: process.env.AUTH_SECRET,
+    providers: [
+      // Your auth providers
+    ]
+  }))
+  .group('/admin', app => app
+    .use(authGuard())
+    .get('/dashboard', () => 'Protected Dashboard')
+  )
+  .listen(3000)
+```
+
+## Why @auth/elysia?
+
+1. **Built for Elysia** - Designed specifically for Elysia.js applications
+2. **Type-Safe** - Full TypeScript support
+3. **Flexible** - Multiple authentication strategies
+4. **Production-Ready** - Battle-tested auth patterns
+
+## Next Steps
+
+- Check the [Getting Started](/getting-started) guide
+- Learn about [Authentication Providers](/providers)
+- Explore [Advanced Usage](/advanced)

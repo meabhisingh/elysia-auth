@@ -1,0 +1,204 @@
+# Advanced Usage
+
+## Custom Configuration
+
+### JWT Configuration
+
+Customize JWT settings for your application:
+
+```typescript
+import { ElysiaAuth } from '@auth/elysia'
+
+new Elysia()
+  .use(ElysiaAuth({
+    secret: process.env.AUTH_SECRET,
+    session: {
+      strategy: "jwt",
+      maxAge: 30 * 24 * 60 * 60, // 30 days
+      updateAge: 24 * 60 * 60, // 24 hours
+    },
+    jwt: {
+      encode: async ({ token, secret }) => {
+        // Custom encode logic
+      },
+      decode: async ({ token, secret }) => {
+        // Custom decode logic
+      }
+    }
+  }))
+```
+
+### Cross-Origin Setup
+
+Configure for frontend/backend separation:
+
+```typescript
+new Elysia()
+  .use(ElysiaAuth({
+    callbacks: {
+      redirect: async ({ baseUrl, url }) => {
+        if (url.startsWith("http")) return url
+        if (url.startsWith("/")) return `${baseUrl}${url}`
+        return baseUrl
+      }
+    },
+    pages: {
+      signIn: "http://localhost:5173/signin",
+      error: "http://localhost:5173/error"
+    }
+  }))
+```
+
+## Custom Middleware Options
+
+### Auth Guard with Custom Failure Handler
+
+```typescript
+import { authGuard } from '@auth/elysia'
+
+app.group('/admin', app => app
+  .use(authGuard({
+    unauthorizedStatus: 403,
+    unauthorizedMessage: "Access Denied",
+    onFailure: (set) => {
+      set.status = 403
+      return {
+        error: "Custom error message",
+        redirect: "/login"
+      }
+    }
+  }))
+)
+```
+
+### Protected Paths with Custom Authentication
+
+```typescript
+import { protectPaths } from '@auth/elysia'
+
+app.use(protectPaths(
+  ['/api/private', '/admin'],
+  {
+    isAuthenticated: async ({ token, secret, salt }) => {
+      // Custom authentication logic
+      const user = await validateToken(token)
+      return user
+    },
+    getUserData: async (authUser) => {
+      // Custom user data transformation
+      const userData = await enrichUserData(authUser)
+      return userData
+    }
+  }
+))
+```
+
+## Error Handling
+
+### Custom Error Pages
+
+```typescript
+new Elysia()
+  .use(ElysiaAuth({
+    pages: {
+      error: '/auth/error',
+      signIn: '/auth/signin',
+      signOut: '/auth/signout'
+    }
+  }))
+```
+
+### Error Callbacks
+
+```typescript
+new Elysia()
+  .use(ElysiaAuth({
+    callbacks: {
+      async error(error) {
+        console.error('Auth error:', error)
+        return `/auth/error?message=${error.message}`
+      }
+    }
+  }))
+```
+
+## Advanced Session Management
+
+### Custom Session Handling
+
+```typescript
+app.group('/api', app => app
+  .use(authGuard({
+    getUserData: async (authUser) => {
+      const user = await db.user.findUnique({
+        where: { id: authUser.sub }
+      })
+      
+      return {
+        ...user,
+        permissions: await getUserPermissions(user.id)
+      }
+    }
+  }))
+  .get('/profile', ({ session }) => {
+    return {
+      user: session.user,
+      permissions: session.user.permissions
+    }
+  })
+)
+```
+
+### Session Validation
+
+```typescript
+const validateSession = async ({ session, set }) => {
+  if (!session.isAuthenticated) {
+    set.status = 401
+    return 'Not authenticated'
+  }
+
+  const user = session.user
+  if (!user.emailVerified) {
+    set.status = 403
+    return 'Email not verified'
+  }
+}
+
+app.get('/protected',
+  ({ session, set }) => validateSession({ session, set }),
+  () => 'Access granted'
+)
+```
+
+## TypeScript Integration
+
+### Custom User Type
+
+```typescript
+import { JWT } from '@auth/core/jwt'
+
+type CustomUser = JWT & {
+  role: string
+  permissions: string[]
+}
+
+app.group('/api', app => app
+  .use(authGuard<CustomUser>({
+    getUserData: async (authUser): Promise<CustomUser> => {
+      // Transform auth user to custom user
+      return {
+        ...authUser,
+        role: await getUserRole(authUser.sub),
+        permissions: await getUserPermissions(authUser.sub)
+      }
+    }
+  }))
+)
+```
+
+## Next Steps
+
+- Check out [Example Projects](/examples)
+- Learn about [Security Best Practices](/advanced/security)
+- Explore [API Reference](/api-reference)

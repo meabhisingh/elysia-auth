@@ -1,0 +1,105 @@
+# Getting Started
+
+This guide will help you set up authentication in your Elysia.js application using @auth/elysia.
+
+## Installation
+
+```bash
+bun add @auth/elysia
+```
+
+## Basic Setup
+
+1. First, create a new Elysia application and add the required environment variables:
+
+```typescript
+// .env
+AUTH_SECRET="your-secret-key"
+AUTH_GOOGLE_ID="your-google-client-id"
+AUTH_GOOGLE_SECRET="your-google-client-secret"
+```
+
+2. Set up the authentication middleware:
+
+```typescript
+import { Elysia } from 'elysia'
+import { ElysiaAuth } from '@auth/elysia'
+import Google from '@auth/core/providers/google'
+
+const app = new Elysia()
+  .use(ElysiaAuth({
+    providers: [
+      Google({
+        clientId: process.env.AUTH_GOOGLE_ID,
+        clientSecret: process.env.AUTH_GOOGLE_SECRET
+      })
+    ],
+    secret: process.env.AUTH_SECRET,
+    trustHost: true
+  }))
+  .listen(3000)
+```
+
+## Protecting Routes
+
+### Method 1: Using authGuard
+
+```typescript
+import { authGuard } from '@auth/elysia'
+
+app
+  .group('/admin', app => app
+    .use(authGuard({
+      secret: process.env.AUTH_SECRET,
+      unauthorizedMessage: 'Please login first'
+    }))
+    .get('/dashboard', () => 'Admin Dashboard')
+  )
+```
+
+### Method 2: Using protectPaths
+
+```typescript
+import { protectPaths } from '@auth/elysia'
+
+app.use(protectPaths(
+  ['/admin', '/api/private'],
+  {
+    secret: process.env.AUTH_SECRET
+  }
+))
+```
+
+## Session Handling
+
+The middleware automatically handles sessions using JWTs. You can access the session in your routes:
+
+```typescript
+app.get('/profile', ({ session }) => {
+  if (!session.isAuthenticated) {
+    return 'Not logged in'
+  }
+  return `Hello ${session.user.email}`
+})
+```
+
+## Custom User Data
+
+You can transform the auth user data:
+
+```typescript
+app.use(authGuard({
+  getUserData: async (authUser) => ({
+    id: authUser.sub,
+    email: authUser.email,
+    // Add custom fields
+    role: await getUserRole(authUser.sub)
+  })
+}))
+```
+
+## Next Steps
+
+- Learn about available [Authentication Providers](/providers)
+- Explore [Advanced Configuration](/advanced)
+- Check out [Examples](/examples)

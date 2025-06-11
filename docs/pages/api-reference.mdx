@@ -1,0 +1,232 @@
+# API Reference
+
+## ElysiaAuth
+
+The main authentication plugin for Elysia applications.
+
+### Options
+
+```typescript
+interface AuthOptions {
+  /**
+   * Array of authentication providers
+   */
+  providers: Array<Provider>;
+
+  /**
+   * Secret used to encode/decode tokens
+   */
+  secret: string;
+
+  /**
+   * Trust host headers for callback URLs
+   * @default true
+   */
+  trustHost?: boolean;
+
+  /**
+   * Session configuration
+   */
+  session?: {
+    /**
+     * Session strategy (jwt or database)
+     * @default "jwt"
+     */
+    strategy?: "jwt" | "database";
+    
+    /**
+     * Maximum age of session in seconds
+     * @default 30 * 24 * 60 * 60 // 30 days
+     */
+    maxAge?: number;
+  };
+
+  /**
+   * Custom pages for auth flows
+   */
+  pages?: {
+    signIn?: string;
+    signOut?: string;
+    error?: string;
+  };
+
+  /**
+   * Callback functions for auth events
+   */
+  callbacks?: {
+    signIn?: (user: User, account: Account, profile: Profile) => Promise<boolean>;
+    redirect?: (url: string, baseUrl: string) => Promise<string>;
+    session?: (session: Session, user: User) => Promise<Session>;
+    jwt?: (token: JWT, user: User, account: Account) => Promise<JWT>;
+  };
+}
+```
+
+## authGuard
+
+Middleware for protecting specific routes.
+
+### Options
+
+```typescript
+interface MiddlewareOptions<UserType> {
+  /**
+   * HTTP status code for unauthorized responses
+   * @default 401
+   */
+  unauthorizedStatus?: number;
+
+  /**
+   * Message for unauthorized requests
+   * @default "Unauthorized: Authentication required"
+   */
+  unauthorizedMessage?: string;
+
+  /**
+   * Custom salt for token verification
+   */
+  salt?: string;
+
+  /**
+   * Secret for token verification
+   */
+  secret?: string;
+
+  /**
+   * Custom authentication verification
+   */
+  isAuthenticated?: (args: {
+    salt: string;
+    secret: string;
+    token?: string;
+  }) => Promise<AuthUser | null>;
+
+  /**
+   * Transform auth user data
+   */
+  getUserData?: (authUser: AuthUser) => Promise<UserType | null>;
+
+  /**
+   * Custom failure handler
+   */
+  onFailure?: (set: Context["set"]) => unknown;
+}
+```
+
+## protectPaths
+
+Middleware for protecting multiple paths globally.
+
+### Parameters
+
+```typescript
+function protectPaths<UserType = AuthUser>(
+  /**
+   * Array of paths to protect
+   */
+  protectedPaths: string[],
+  
+  /**
+   * Configuration options
+   */
+  options?: Partial<MiddlewareOptions<UserType>>
+): Elysia;
+```
+
+## Session Object
+
+The session object available in protected routes.
+
+```typescript
+interface Session {
+  /**
+   * Whether the user is authenticated
+   */
+  isAuthenticated: boolean;
+
+  /**
+   * The authenticated user data
+   */
+  user: AuthUser | null;
+
+  /**
+   * Raw auth user data
+   */
+  authUser: JWT;
+}
+```
+
+## AuthUser Type
+
+Base authentication user type.
+
+```typescript
+interface AuthUser extends JWT {
+  /**
+   * Unique identifier
+   */
+  sub?: string;
+
+  /**
+   * Email address
+   */
+  email?: string;
+
+  /**
+   * Name
+   */
+  name?: string;
+
+  /**
+   * Additional claims
+   */
+  [key: string]: any;
+}
+```
+
+## Error Handling
+
+### AuthError
+
+Custom error class for authentication errors.
+
+```typescript
+class AuthError extends Error {
+  /**
+   * Error type
+   */
+  type: string;
+
+  /**
+   * Error code
+   */
+  code?: string;
+
+  constructor(message: string, type: string, code?: string) {
+    super(message);
+    this.type = type;
+    this.code = code;
+  }
+}
+```
+
+## Types Export
+
+All TypeScript types are exported for use in your application:
+
+```typescript
+export type {
+  AuthOptions,
+  MiddlewareOptions,
+  AuthUser,
+  Session,
+  Provider,
+  JWT
+};
+```
+
+## Next Steps
+
+- Check out [Examples](/examples) for usage patterns
+- Learn about [Advanced Usage](/advanced)
+- Read about [Security Best Practices](/advanced/security)
