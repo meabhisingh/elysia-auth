@@ -2,4 +2,4 @@
 
 ## Check official docs
 
-[Docs](https://github.com/meabhisingh/elysia-auth.git)
+[Docs](https://elysia-auth.pages.dev/)
