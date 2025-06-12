@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres
+    ports:
+      - 5432:5432
+    restart: always
+    shm_size: 128mb
+
+    environment:
+      POSTGRES_PASSWORD: example
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    restart: always
+    shm_size: 128mb
+    depends_on:
+      - db
+    environment:
+      AUTH_GITHUB_ID: example
+      AUTH_GITHUB_SECRET: example
+      AUTH_SECRET: Asdasjdhasjkdhasjkdhasjkdhsjkhn
+      DATABASE_URL: postgresql://postgres:example@db/auth-example?schema=public
+
+  dbgate:
+    image: dbgate/dbgate
+    ports:
+      - "3002:3000"
+    depends_on:
+      - db

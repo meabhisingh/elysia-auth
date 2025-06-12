@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <style>
+      body {
+        background: #f3f4f6;
+        font-family: "Segoe UI", sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+      }
+
+      header {
+        background-color: #1f2937;
+        color: white;
+        padding: 16px 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      nav {
+        display: flex;
+        gap: 10px;
+      }
+
+      nav a {
+        text-decoration: none;
+      }
+
+      .nav-btn {
+        padding: 8px 14px;
+        border-radius: 6px;
+        border: none;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .signup {
+        background-color: #10b981;
+        color: white;
+      }
+
+      .signup:hover {
+        background-color: #059669;
+      }
+
+      .login {
+        background-color: #3b82f6;
+        color: white;
+      }
+
+      .login:hover {
+        background-color: #2563eb;
+      }
+
+      .home-link {
+        background-color: transparent;
+        color: white;
+        font-weight: bold;
+      }
+
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100vh - 80px);
+      }
+
+      .form-container {
+        background: #ffffff;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: #444;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+      }
+
+      .form-group input[type="file"] {
+        padding: 6px;
+      }
+
+      .submit-btn {
+        background-color: #4a90e2;
+        color: white;
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .submit-btn:hover {
+        background-color: #357acc;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Elysia Auth App</h1>
+      <nav>
+        <a href="/" class="nav-btn home-link">Home</a>
+        <a href="/signup">
+          <button class="nav-btn signup">Sign Up</button>
+        </a>
+        <a href="/auth/signin">
+          <button class="nav-btn login">Log In</button>
+        </a>
+      </nav>
+    </header>
+    <main>
+      <form
+        class="form-container"
+        action="/api/v1/signup"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <h2>Create Account</h2>
+
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input name="name" id="name" type="text" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input name="email" id="email" type="email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input name="password" id="password" type="password" required />
+        </div>
+
+        <div class="form-group">
+          <label for="image">Profile Image</label>
+          <input name="file" id="image" type="file" accept="image/*" required />
+        </div>
+
+        <button class="submit-btn" type="submit">Register</button>
+      </form>
+    </main>
+  </body>
+</html>
