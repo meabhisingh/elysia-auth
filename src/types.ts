@@ -1,13 +1,20 @@
 import { Auth } from "@auth/core";
-import { JWT } from "@auth/core/jwt";
 import { Context } from "elysia";
 
 export type AuthOptions = Parameters<typeof Auth>[1];
 
-export type AuthUser = JWT & {};
+export type AuthUser = {
+  name?: string | null;
+  email?: string | null;
+  picture?: string | null;
+  sub?: string;
+  iat?: number;
+  exp?: number;
+  jti?: string;
+};
 
 // Define the authentication options type
-export type MiddlewareOptions<UserType> = {
+export type MiddlewareOptions<T = AuthUser> = {
   /**
    * HTTP status code for unauthorized responses
    * @default 401
@@ -43,10 +50,10 @@ export type MiddlewareOptions<UserType> = {
   /**
    * Function to retrieve user data from email
    */
-  getUserData?: (authUser: AuthUser) => Promise<UserType | null>;
+  getUserData?: (authUser: AuthUser) => Promise<T>;
 
   /**
    * Optional custom handler for authentication failures
    */
-  onFailure: ((set: Context["set"]) => unknown) | null;
+  onFailure?: ((set: Context["set"]) => unknown) | null;
 };

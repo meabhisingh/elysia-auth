@@ -1,5 +1,5 @@
 import { Auth } from "@auth/core";
-import Elysia from "elysia";
+import { Elysia } from "elysia";
 import Credentials from "@auth/core/providers/credentials";
 import Google from "@auth/core/providers/google";
 import GitHub from "@auth/core/providers/github";

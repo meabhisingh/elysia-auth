@@ -1,11 +1,21 @@
 {
   "name": "elysia-auth",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "description": "",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/index.d.ts"
+      ],
+      "providers/*": [
+        "./dist/providers/*.d.ts"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

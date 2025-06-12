@@ -1,6 +1,6 @@
 import { decode } from "@auth/core/jwt";
 import { bearer } from "@elysiajs/bearer";
-import Elysia from "elysia";
+import { Elysia } from "elysia";
 import { AuthUser, MiddlewareOptions } from "./types";
 
 const defaultAuthOptions: MiddlewareOptions<AuthUser> = {
@@ -61,10 +61,10 @@ const defaultAuthOptions: MiddlewareOptions<AuthUser> = {
  * @param options - Configuration options for authentication behavior
  * @returns An Elysia plugin that adds authentication to route groups
  */
-const authGuard = <UserData = AuthUser>(
-  options: Partial<MiddlewareOptions<UserData>> = {}
+const authGuard = <T = AuthUser>(
+  options: Partial<MiddlewareOptions<T>> = {}
 ) => {
-  const config = { ...defaultAuthOptions, ...options };
+  const config = { ...defaultAuthOptions, ...options } as MiddlewareOptions<T>;
 
   return new Elysia({ name: "elysia-auth-guard" })
     .use(bearer())
@@ -80,16 +80,18 @@ const authGuard = <UserData = AuthUser>(
         token,
       });
 
-      const session = {
-        user:
-          userJwt && config.getUserData
-            ? await config.getUserData(userJwt!)
-            : null,
-        authUser: userJwt!,
-        isAuthenticated: Boolean(userJwt),
-      };
+      let userData: T | null = null;
+      if (userJwt && config.getUserData) {
+        userData = await config.getUserData(userJwt);
+      }
 
-      return { session };
+      return {
+        session: {
+          user: userData,
+          authUser: userJwt!,
+          isAuthenticated: Boolean(userJwt),
+        },
+      };
     })
     .onBeforeHandle(({ session, set }) => {
       if (!session.isAuthenticated) {
