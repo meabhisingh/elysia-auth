@@ -139,10 +139,12 @@ const authGuard = <T = AuthUser>(
  * @returns An Elysia plugin that adds global path-based authentication
  */
 const protectPaths = <UserData = AuthUser>(
-  protectedPaths: string[],
+  paths: string[],
   options: Partial<MiddlewareOptions<UserData>> = {}
 ) => {
   const config = { ...defaultAuthOptions, ...options };
+
+  const protectedPaths = [...paths, "/get-session"];
 
   return new Elysia({ name: "elysia-path-auth" })
     .use(bearer())
