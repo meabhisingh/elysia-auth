@@ -106,6 +106,7 @@ const authGuard = <T = AuthUser>(
         };
       }
     })
+    .get("/get-session", (ctx) => ctx.session)
     .as("scoped");
 };
 
@@ -199,6 +200,7 @@ const protectPaths = <UserData = AuthUser>(
         };
       }
     })
+    .get("/get-session", (ctx) => ctx.session)
     .as("global");
 };
 
